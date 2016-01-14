@@ -6,7 +6,7 @@
 
 #include <stdint.h>
 #include <stdio.h>
-#include <strings.h>
+#include <string.h>
 
 #define _FF_HEADER "farbfeld########"
 
