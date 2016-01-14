@@ -16,11 +16,12 @@ char* ff_error = NULL;
 
 typedef uint16_t pixel_t[4];
 
-static int read_header(uint32_t* width, uint32_t* height, FILE* fp)
+
+static int read_header(uint32_t* width, uint32_t* height)
 {
     uint8_t hdr[16] = {0};
 
-    if (fread(hdr, 1, strlen(_FF_HEADER), fp) != strlen(_FF_HEADER)) {
+    if (fread(hdr, 1, strlen(_FF_HEADER), stdin) != strlen(_FF_HEADER)) {
         ff_error = "incomplete header\n";
         return 1;
     }
@@ -37,27 +38,28 @@ static int read_header(uint32_t* width, uint32_t* height, FILE* fp)
 }
 
 
-static int write_header(uint32_t width, uint32_t height, FILE* fp)
+static int write_header(uint32_t width, uint32_t height)
 {
-    uint16_t tmp;
+    uint32_t tmp;
 
-    fputs("farbfeld", fp);
+    if (!fputs("farbfeld", stdout))
+        return 1;
+
     tmp = htonl(width);
-
-    if (fwrite(&tmp, sizeof(uint32_t), 1, fp) != 1)
+    if (fwrite(&tmp, sizeof(uint32_t), 1, stdout) != 1)
         return 1;
 
     tmp = htonl(height);
-    if (fwrite(&tmp, sizeof(uint32_t), 1, fp) != 1)
+    if (fwrite(&tmp, sizeof(uint32_t), 1, stdout) != 1)
         return 1;
 
     return 0;
 }
 
 
-static inline int read_pixel(pixel_t* rgba, FILE* fp)
+static inline int read_pixel(pixel_t* rgba)
 {
-    if (fread(rgba, sizeof(uint16_t), 4, fp) != 4) {
+    if (fread(rgba, sizeof(uint16_t), 4, stdin) != 4) {
         ff_error = "unexpected EOF";
         return 1;
     }
@@ -70,7 +72,7 @@ static inline int read_pixel(pixel_t* rgba, FILE* fp)
 }
 
 
-static inline int write_pixel(pixel_t rgba, FILE* fp)
+static inline int write_pixel(pixel_t rgba)
 {
     pixel_t copy;
 
@@ -78,8 +80,8 @@ static inline int write_pixel(pixel_t rgba, FILE* fp)
         copy[k] = htons(rgba[k]);
     }
 
-    if (fwrite(copy, sizeof(uint16_t), 4, fp) != 4) {
-        fprintf(stderr, "write error\n");
+    if (fwrite(copy, sizeof(uint16_t), 4, stdout) != 4) {
+        ff_error = "write error";
         return 1;
     }
 
