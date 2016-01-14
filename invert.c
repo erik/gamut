@@ -7,6 +7,11 @@ int main(int argc, char** argv)
 {
     uint32_t width, height;
 
+    if (argc != 1) {
+        fprintf(stderr, "usage: %s\n", argv[0]);
+        return 1;
+    }
+
     if (read_header(&width, &height)) FATALF();
 
     if (write_header(width, height)) {
