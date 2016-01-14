@@ -7,7 +7,7 @@
 
 #pragma once
 
-extern char *argv0;
+char *argv0;
 
 /* use main(int argc, char *argv[]) */
 #define ARGBEGIN        for (argv0 = *argv, argv++, argc--;\

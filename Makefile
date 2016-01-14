@@ -8,12 +8,12 @@ LDFLAGS  = ${LIBS}
 
 CC = cc
 
-BIN = opacity invert
+BIN = opacity invert flip
 SRC = ${BIN:=.c}
 
 all: ${BIN}
 
-.c:
+.c: farbfeld.h
 	@echo CC $<
 	@${CC} -o $@ ${CFLAGS} ${LIBS} ${LDFLAGS} $<
 

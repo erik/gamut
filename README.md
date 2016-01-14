@@ -6,9 +6,9 @@ Toolkit of suckless filters for the farbfeld image format.
 
 - [x] invert
 - [x] opacity
-- [ ] mirror
-  - [ ] vertical
-  - [ ] horizontal
+- [x] flip
+  - [x] vertical
+  - [x] horizontal
 - [ ] scale
   - [ ] nearest neighbor
   - [ ] bilinear

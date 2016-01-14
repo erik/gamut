@@ -87,3 +87,29 @@ static inline int write_pixel(pixel_t rgba)
 
     return 0;
 }
+
+
+/* Slurp entire image into memory. */
+static inline int read_image(pixel_t* pixels, uint32_t width, uint32_t height)
+{
+    uint32_t size = width * height;
+
+    if (fread(pixels, sizeof(uint16_t) * 4, size, stdin) != size) {
+        ff_error = "unexpected EOF";
+        return 1;
+    }
+
+    return 0;
+}
+
+
+static inline int write_image(pixel_t* pixels, uint32_t width, uint32_t height)
+{
+    for (uint32_t i = 0; i < height; i++) {
+        for (uint32_t j = 0; j < width; j++) {
+            if (write_pixel(pixels[i * width + j])) return 1;
+        }
+    }
+
+    return 0;
+}
