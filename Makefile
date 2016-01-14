@@ -6,7 +6,7 @@ CPPFLAGS = -D_DEFAULT_SOURCE
 CFLAGS   = -std=c99 -pedantic -Wall -Wextra -Os ${INCS} ${CPPFLAGS}
 LDFLAGS  = ${LIBS}
 
-CC = cc
+CC ?= cc
 
 BIN = opacity invert flip
 SRC = ${BIN:=.c}
