@@ -3,7 +3,7 @@ LIBS =
 
 # flags
 CPPFLAGS = -D_DEFAULT_SOURCE
-CFLAGS   = -std=c99 -pedantic -Wall -Os ${INCS} ${CPPFLAGS}
+CFLAGS   = -std=c99 -pedantic -Wall -Wshadow -Os ${INCS} ${CPPFLAGS}
 LDFLAGS  = ${LIBS}
 
 CC = cc
