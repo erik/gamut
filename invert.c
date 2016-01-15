@@ -6,6 +6,7 @@
 int main(int argc, char** argv)
 {
     uint32_t width, height;
+    pixel_t rgba;
 
     if (argc != 1) {
         fprintf(stderr, "usage: %s\n", argv[0]);
@@ -21,16 +22,14 @@ int main(int argc, char** argv)
 
     for (uint32_t i = 0; i < height; i++) {
         for (uint32_t j = 0; j < width; j++) {
-            pixel_t rgba;
-
             if (read_pixel(&rgba)) FATALF();
 
             /* invert colors */
-            rgba[0] = 65535 - rgba[0];
-            rgba[1] = 65535 - rgba[1];
-            rgba[2] = 65535 - rgba[2];
+            rgba.r = 65535 - rgba.r;
+            rgba.g = 65535 - rgba.g;
+            rgba.b = 65535 - rgba.b;
 
-            if (write_pixel(rgba)) FATALF();
+            if (write_pixel(&rgba)) FATALF();
         }
     }
 

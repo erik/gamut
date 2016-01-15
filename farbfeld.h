@@ -14,7 +14,25 @@ char* ff_error = NULL;
 
 #define FATALF() { fprintf(stderr, "%s: %s\n", argv[0], ff_error); return 1; }
 
-typedef uint16_t pixel_t[4];
+typedef struct { uint16_t r, g, b, a; } pixel_t;
+
+
+static void ntoh_pixel(pixel_t* dst, pixel_t* src)
+{
+    dst->r = ntohs(src->r);
+    dst->g = ntohs(src->g);
+    dst->b = ntohs(src->b);
+    dst->a = ntohs(src->a);
+}
+
+
+static void hton_pixel(pixel_t* dst, pixel_t* src)
+{
+    dst->r = htons(src->r);
+    dst->g = htons(src->g);
+    dst->b = htons(src->b);
+    dst->a = htons(src->a);
+}
 
 
 static int read_header(uint32_t* width, uint32_t* height)
@@ -64,23 +82,18 @@ static inline int read_pixel(pixel_t* rgba)
         return 1;
     }
 
-    for (uint32_t k = 0; k < 4; k++) {
-        *rgba[k] = ntohs(*rgba[k]);
-    }
-
+    ntoh_pixel(rgba, rgba);
     return 0;
 }
 
 
-static inline int write_pixel(pixel_t rgba)
+static inline int write_pixel(pixel_t* rgba)
 {
     pixel_t copy;
 
-    for (uint32_t k = 0; k < 4; k++) {
-        copy[k] = htons(rgba[k]);
-    }
+    hton_pixel(&copy, rgba);
 
-    if (fwrite(copy, sizeof(uint16_t), 4, stdout) != 4) {
+    if (fwrite(&copy, sizeof(uint16_t), 4, stdout) != 4) {
         ff_error = "write error";
         return 1;
     }
@@ -99,6 +112,12 @@ static inline int read_image(pixel_t* pixels, uint32_t width, uint32_t height)
         return 1;
     }
 
+    for (uint32_t i = 0; i < height; i++) {
+        for (uint32_t j = 0; j < width; j++) {
+            hton_pixel(&pixels[i * width + j], &pixels[i * width + j]);
+        }
+    }
+
     return 0;
 }
 
@@ -107,7 +126,7 @@ static inline int write_image(pixel_t* pixels, uint32_t width, uint32_t height)
 {
     for (uint32_t i = 0; i < height; i++) {
         for (uint32_t j = 0; j < width; j++) {
-            if (write_pixel(pixels[i * width + j])) return 1;
+            if (write_pixel(&pixels[i * width + j])) return 1;
         }
     }
 

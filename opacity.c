@@ -7,6 +7,7 @@ int main(int argc, char** argv)
 {
     uint32_t width, height;
     uint16_t opacity;
+    pixel_t rgba;
 
     if (argc != 2) {
         fprintf(stderr, "usage: %s OPACITY_PCT\n", argv[0]);
@@ -31,14 +32,12 @@ int main(int argc, char** argv)
 
     for (uint32_t i = 0; i < height; i++) {
         for (uint32_t j = 0; j < width; j++) {
-            pixel_t rgba;
-
             if (read_pixel(&rgba))
                 FATALF();
 
-            rgba[3] = opacity;
+            rgba.a = opacity;
 
-            if (write_pixel(rgba))
+            if (write_pixel(&rgba))
                 FATALF();
         }
     }
