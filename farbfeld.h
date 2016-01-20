@@ -113,9 +113,17 @@ static inline void read_image(pixel_t* pixels, uint32_t width, uint32_t height)
 
 static inline void write_image(pixel_t* pixels, uint32_t width, uint32_t height)
 {
-    for (uint32_t i = 0; i < height; i++) {
-        for (uint32_t j = 0; j < width; j++) {
-            if (write_pixel(&pixels[i * width + j])) return 1;
+    pixel_t* copy;
+
+    if (!(copy = calloc(width * height, sizeof(pixel_t)))) {
+        fprintf(stderr, "couldn't allocate memory\n");
+        exit(1);
+    }
+
+
+    for (uint32_t y = 0; y < height; y++) {
+        for (uint32_t x = 0; x < width; x++) {
+            hton_pixel(PIXEL(&copy, x, y), PIXEL(&pixels, x, y));
         }
     }
 
