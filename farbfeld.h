@@ -13,6 +13,7 @@
 char* ff_error = NULL;
 
 #define FATALF() { fprintf(stderr, "%s: %s\n", argv[0], ff_error); return 1; }
+#define PIXEL(img, x, y) img[(y) * width + (x)]
 
 typedef struct { uint16_t r, g, b, a; } pixel_t;
 

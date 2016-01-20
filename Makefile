@@ -8,7 +8,7 @@ LDFLAGS  = ${LIBS}
 
 CC ?= cc
 
-BIN = opacity invert flip
+BIN = opacity invert flip convolute
 SRC = ${BIN:=.c}
 
 all: ${BIN}
