@@ -23,21 +23,15 @@ int convolve(const float kernel[3][3])
     pixel_t* image = NULL;
     char** argv = "i didn't plan this out.";
 
-    if (read_header(&width, &height)) FATALF();
+    read_header(&width, &height);
 
     if (!(image = calloc(width * height, sizeof(pixel_t)))) {
         perror("couldn't allocate memory");
         return 1;
     }
 
-    if (read_image(image, width, height))
-        FATALF();
-
-
-    if (write_header(width, height)) {
-        perror("write header");
-        return 1;
-    }
+    read_image(image, width, height);
+    write_header(width, height);
 
     for (uint32_t y = 0; y < height; ++y) {
         for (uint32_t x = 0; x < width; ++x) {
@@ -62,7 +56,7 @@ int convolve(const float kernel[3][3])
                 }
             }
 
-            if (write_pixel(&accumulator)) FATALF();
+            write_pixel(&accumulator);
         }
     }
 

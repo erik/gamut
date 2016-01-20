@@ -14,7 +14,7 @@
 int main(int argc, char** argv)
 {
     uint32_t width = 0, height = 0;
-    pixel_t* image = {0};
+    pixel_t* image = NULL;
     bool flip_v = false, flip_h = false;
 
     if (argc < 2) {
@@ -40,21 +40,15 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    if (read_header(&width, &height))
-        FATALF();
+    read_header(&width, &height);
 
     if (!(image = calloc(width * height, sizeof(pixel_t)))) {
         perror("couldn't allocate memory");
         return 1;
     }
 
-    if (read_image(image, width, height))
-        FATALF();
-
-    if (write_header(width, height)) {
-        perror("write header");
-        return 1;
-    }
+    read_image(image, width, height);
+    write_header(width, height);
 
     if (flip_h) {
         for (uint32_t i = 0; i < height; i++) {
@@ -85,8 +79,7 @@ int main(int argc, char** argv)
         }
     }
 
-    if (write_image(image, width, height))
-        FATALF();
+    write_image(image, width, height);
 
     return 0;
 }

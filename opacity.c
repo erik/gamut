@@ -23,22 +23,14 @@ int main(int argc, char** argv)
 
     opacity = (uint16_t)(65535 * (opacity_pct / 100.0));
 
-    if (read_header(&width, &height)) FATALF();
-
-    if (write_header(width, height)) {
-        perror("write header");
-        return 1;
-    }
+    read_header(&width, &height);
+    write_header(width, height);
 
     for (uint32_t i = 0; i < height; i++) {
         for (uint32_t j = 0; j < width; j++) {
-            if (read_pixel(&rgba))
-                FATALF();
-
+            read_pixel(&rgba);
             rgba.a = opacity;
-
-            if (write_pixel(&rgba))
-                FATALF();
+            write_pixel(&rgba);
         }
     }
 

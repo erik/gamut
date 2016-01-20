@@ -13,23 +13,19 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    if (read_header(&width, &height)) FATALF();
-
-    if (write_header(width, height)) {
-        perror("write header");
-        return 1;
-    }
+    read_header(&width, &height);
+    write_header(width, height);
 
     for (uint32_t i = 0; i < height; i++) {
         for (uint32_t j = 0; j < width; j++) {
-            if (read_pixel(&rgba)) FATALF();
+            read_pixel(&rgba);
 
             /* invert colors */
             rgba.r = 65535 - rgba.r;
             rgba.g = 65535 - rgba.g;
             rgba.b = 65535 - rgba.b;
 
-            if (write_pixel(&rgba)) FATALF();
+            write_pixel(&rgba);
         }
     }
 
