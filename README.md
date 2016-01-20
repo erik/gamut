@@ -14,9 +14,9 @@ Toolkit of suckless filters for the farbfeld image format.
   - [ ] bilinear
   - [ ] bicubic
 - [ ] rotate
-- [ ] convolution kernels
-  - [ ] gaussian blur
-  - [ ] sharpen
+- [x] convolution kernels
+  - [x] gaussian blur
+  - [x] sharpen
   - [ ] emboss
   - [ ] outline
 - [ ] noise
