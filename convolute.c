@@ -34,7 +34,7 @@ int convolve(const float kernel[3][3])
 
     for (uint32_t y = 0; y < height; ++y) {
         for (uint32_t x = 0; x < width; ++x) {
-            pixel_t accumulator = {0, 0, 0, 0};
+            pixel_t accumulator = {0, 0, 0, PIXEL(image, x, y).a};
 
             for (int ky = -1; ky < 2; ++ky) {
                 for (int kx = -1; kx < 2; ++kx) {
@@ -51,7 +51,6 @@ int convolve(const float kernel[3][3])
                     accumulator.r += current->r * mult;
                     accumulator.g += current->g * mult;
                     accumulator.b += current->b * mult;
-                    accumulator.a += current->a * mult;
                 }
             }
 
