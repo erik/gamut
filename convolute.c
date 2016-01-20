@@ -21,7 +21,6 @@ int convolve(const float kernel[3][3])
 {
     uint32_t width, height;
     pixel_t* image = NULL;
-    char** argv = "i didn't plan this out.";
 
     read_header(&width, &height);
 
