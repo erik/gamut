@@ -13,7 +13,7 @@ Toolkit of suckless filters for the farbfeld image format.
   - [ ] nearest neighbor
   - [ ] bilinear
   - [ ] bicubic
-- [ ] rotate
+- [x] rotate
 - [x] convolution kernels
   - [x] gaussian blur
   - [x] sharpen
