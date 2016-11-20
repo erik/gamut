@@ -82,10 +82,10 @@ int rotate(double angle)
                 interpolate(
                     sampleat(image, basex, basey, inw, inh),
                     sampleat(image, basex + signx, basey, inw, inh),
-                fabs(tx)),
-                    interpolate(
-                        sampleat(image, basex, basey + signy, inw, inh),
-                        sampleat(image, basex + signx, basey + signy, inw, inh),
+                    fabs(tx)),
+                interpolate(
+                    sampleat(image, basex, basey + signy, inw, inh),
+                    sampleat(image, basex + signx, basey + signy, inw, inh),
                     fabs(tx)),
                 fabs(ty));
             write_pixel(&pixel);
