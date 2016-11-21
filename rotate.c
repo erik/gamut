@@ -55,10 +55,10 @@ int rotate(double angle)
         const double C = cos(rad);
         double a = inw / 2 * C;
         double b = inh / 2 * S;
-        outw = ceil(MAX(MAX(-a + b, a + b), MAX(-a - b, a - b)) * 2.0);
+        outw = round(MAX(MAX(-a + b, a + b), MAX(-a - b, a - b))) * 2.0;
         double c = inh / 2 * C;
         double d = inw / 2 * S;
-        outh = ceil(MAX(MAX(-c + d, c + d), MAX(-c - d, c - d)) * 2.0);
+        outh = round(MAX(MAX(-c + d, c + d), MAX(-c - d, c - d))) * 2.0;
     }
 
     write_header(outw, outh);
@@ -67,8 +67,8 @@ int rotate(double angle)
     const double C = cos(-rad);
     for (int outy = 0; outy < outh; outy++) {
         for (int outx = 0; outx < outw; outx++) {
-            double cox = outx - outw / 2;
-            double coy = outy - outh / 2;
+            double cox = outx - outw / 2 + 1;
+            double coy = outy - outh / 2 + 1;
             // rotate back to find input image coordinates
             double inx = cox * C - coy * S + inw / 2;
             double iny = coy * C + cox * S + inh / 2;
