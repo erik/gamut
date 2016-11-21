@@ -1,5 +1,5 @@
 INCS =
-LIBS =
+LIBS = -lm
 
 # flags
 CPPFLAGS = -D_DEFAULT_SOURCE
@@ -8,7 +8,7 @@ LDFLAGS  = ${LIBS}
 
 CC ?= cc
 
-BIN = opacity invert flip convolute
+BIN = opacity invert flip convolute rotate
 SRC = ${BIN:=.c}
 
 all: ${BIN}
